@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Número Aleatório</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            padding: 0px;
+            margin: 0px;
+        }
+        .container {
+            display: flex;
+            justify-content: center;
+            margin-top: 100px;
+            width: 1000px;
+            height: 300px;
+        }
+        .content {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: center;
+            align-items: center;
+            background-image: linear-gradient(180deg, rgb(132, 103, 160), rgb(146, 201, 238));
+            font-family: "Roboto Condensed", sans-serif;
+        }
+        input {
+            margin-bottom: 10px;
+        }
+        button {
+            border-radius: 20%;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: rgb(218, 200, 218);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="content">
+            <h1>Adivinhe o número!</h1>
+            <h2>Estou pensando em um número de 1 a 100, você só tem 10 tentativas:</h2>
+            <input type="number" placeholder="Digite um número" id="guess">
+            <button id="guessButton">Adivinhar</button>
+            <p id="feedback"></p>
+        </div>
+    </div>
+
+    <script>
+        // Gera um número aleatório entre 1 e 100
+        const numeroAleatorio = Math.floor(Math.random() * 100) + 1;
+        let tentativas = 10;
+
+        document.getElementById("guessButton").addEventListener("click", function() {
+            const guess = parseInt(document.getElementById("guess").value);
+            const feedback = document.getElementById("feedback");
+
+            if (isNaN(guess) || guess < 1 || guess > 100) {
+                feedback.textContent = "Por favor, insira um número válido entre 1 e 100.";
+                return;
+            }
+
+            if (guess === numeroAleatorio) {
+                feedback.textContent = "Parabéns! Você acertou!";
+                disableInputAndButton();
+            } else {
+                tentativas--;
+                if (tentativas === 0) {
+                    feedback.textContent = "Você esgotou suas tentativas. O número era: " + numeroAleatorio;
+                    disableInputAndButton();
+                } else {
+                    feedback.textContent = guess < numeroAleatorio ? "Tente um número maior." : "Tente um número menor.";
+                }
+            }
+        });
+
+        function disableInputAndButton() {
+            document.getElementById("guess").disabled = true;
+            document.getElementById("guessButton").disabled = true;
+        }
+    </script>
+</body>
+</html>
